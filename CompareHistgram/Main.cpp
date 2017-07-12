@@ -22,19 +22,9 @@
 using namespace std;
 
 
-struct FILE_PAIR{
-	string a;
-	string asubname;
-	string b;
-	string bsubname;
-};
-
-FILE_PAIR files[10000];
-
 int main(void){
 
-	ifstream ifs("input.txt");
-	ofstream ofp("output.txt");
+	
 
 	IplImage *src1 = 0, *src2 = 0;
 	IplImage *dst1[4] = { 0, 0, 0, 0 }, *dst2[4] = { 0, 0, 0, 0 };
@@ -44,20 +34,10 @@ int main(void){
 	float range_0[] = { 0, 256 };
 	float *ranges[] = { range_0 };
 
-	int N = 0;
-	while (ifs >> files[N].asubname >> files[N].bsubname){
-		files[N].a = "image/" + files[N].asubname;
-		files[N].b = "image/" + files[N].bsubname;
-		N++;
-	}
+	
 
-	for (int i = 0; i < N; i++){
-		cout << files[i].a << "," << files[i].b << endl;
-		const char* ca = files[i].a.c_str();
-		const char* cb = files[i].b.c_str();
-
-		src1 = cvLoadImage(ca, CV_LOAD_IMAGE_COLOR);
-		src2 = cvLoadImage(cb, CV_LOAD_IMAGE_COLOR);
+		src1 = cvLoadImage("good_lbp_24_3_uniform.png", CV_LOAD_IMAGE_COLOR);
+		src2 = cvLoadImage("good2_lbp_24_3_uniform.png", CV_LOAD_IMAGE_COLOR);
 		if (src1 == 0 || src2 == 0){
 			return -1;
 		}
@@ -107,13 +87,7 @@ int main(void){
 		printf("Intersection(CV_COMP_INTERSECT) : %f\n", intersection);
 		printf("Bhattacharyya distance(CV_COMP_BHATTACHARYYA) : %f\n", bhattacharyya);
 
-		ofp << files[i].a << "," << files[i].b << "\n"
-			<< "‘ŠŠÖ" << correlation << "\n"
-			<< "ƒJƒC2æ" << chi << "\n"
-			<< "Œð·" << intersection << "\n"
-			<< "Bhattacharyya‹——£" << bhattacharyya << endl;
-
 		return 0;
 
-	}
+	
 }
