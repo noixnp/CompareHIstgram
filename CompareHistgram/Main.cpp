@@ -1,3 +1,5 @@
+#pragma warning(disable:4996)
+
 #include <cstdio>
 #include <fstream>
 #include <string>
@@ -18,6 +20,11 @@
 #include <string>
 #include <sstream>
 #include <fstream>
+#include <stdio.h>
+#include <opencv/cv.h>
+#include <opencv/highgui.h>
+
+
 
 using namespace std;
 
@@ -35,15 +42,20 @@ int main(void){
 	float *ranges[] = { range_0 };
 
 	
+	string read1 = "good_lbp_24_3_uniform.png";
+	string read2 = "good2_lbp_24_3_uniform.png";
+	const char* image1 = read1.c_str();
+	const char* image2 = read2.c_str();
 
-		src1 = cvLoadImage("good_lbp_24_3_uniform.png", CV_LOAD_IMAGE_COLOR);
-		src2 = cvLoadImage("good2_lbp_24_3_uniform.png", CV_LOAD_IMAGE_COLOR);
+	src1 = cvLoadImage(image1, CV_LOAD_IMAGE_COLOR);
+	src2 = cvLoadImage(image2, CV_LOAD_IMAGE_COLOR);
+
+
 		if (src1 == 0 || src2 == 0){
 			return -1;
 		}
-
-		sch1 = src1->nChannels;
-		sch2 = src2->nChannels;
+			sch1 = src1->nChannels;
+			sch2 = src2->nChannels;
 		if (sch1 != sch2){
 			return -1;
 		}
@@ -81,13 +93,16 @@ int main(void){
 		double bhattacharyya = cvCompareHist(hist1, hist2, CV_COMP_BHATTACHARYYA);
 
 
-		printf("ヒストグラムの比較\n");
-		printf("Correlation(CV_COMP_CORREL) : %f\n", correlation);
-		printf("Chi-square(CV_COMP_CHSQR) : %f\n", chi);
-		printf("Intersection(CV_COMP_INTERSECT) : %f\n", intersection);
-		printf("Bhattacharyya distance(CV_COMP_BHATTACHARYYA) : %f\n", bhattacharyya);
+		printf("ヒストグラムの比較");
+		printf("%s ",image1);
+		printf("%s\n", image2);
+		printf("相関 : %f\n", correlation);
+		printf("カイ2乗 : %f\n", chi);
+		printf("交差: %f\n", intersection);
+		printf("Bhattacharyya距離: %f\n", bhattacharyya);
 
 		return 0;
+
 
 	
 }
